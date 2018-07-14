@@ -10,11 +10,6 @@ public class Point {
         this.x = x;
         this.y = y;
         this.z = z;
-        // Point3D oi = new Point3D(x, y, z);
-        // oi.normalize()
-        // oi.
-        // oi.su
-        // oi.magnitude()
     }
 
     public double getX() {
@@ -47,6 +42,13 @@ public class Point {
         return this;
     }
 
+    public Point multiply(double[][] matrix) {
+        double x = matrix[0][0] * this.x + matrix[0][1] * this.y + matrix[0][2] * this.z;
+        double y = matrix[1][0] * this.x + matrix[1][1] * this.y + matrix[1][2] * this.z;
+        double z = matrix[2][0] * this.x + matrix[2][1] * this.y + matrix[2][2] * this.z;
+        return new Point(x, y, z);
+    }
+
     public Point subtract(Point v) {
         this.x -= v.x;
         this.x -= v.y;
@@ -72,55 +74,6 @@ public class Point {
             this.z * v.x - this.x * v.z,
             this.x * v.y - this.y * v.x);
     }
-
-    // public Point normalize() {
-    //     double norm = this.calculateNorm();
-    //     System.out.println(norm);
-    //     this.x = x / norm;
-    //     this.y = y / norm;
-    //     this.z = y / norm;
-    //     System.out.println(x + " " + y + " " + z);
-    //     System.out.println("NORMAL: " + this.calculateNorm()+'\n');
-    //     return this;
-    // }
-
-    // public double calculateNorm() {
-    //     System.out.println("NORMA n raiz: " + Math.pow(this.x, 2) + " " + Math.pow(this.y, 2) + " " + Math.pow(this.z, 2));
-    //     return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
-    // }
-
-    // public Point orthogonalize(Point v) {
-    //     double a = this.scalarProduct(v);
-    //     double b = v.scalarProduct(v);
-    //     return this.sum(v.multiply(a / b));
-    // }
-
-    // public Point sum(Point u) {
-    //     this.x += u.getX();
-    //     this.y += u.getY();
-    //     this.z += u.getZ();
-    //     return this;
-    // }
-
-    // public Point multiply(double scalar) {
-    //     this.x *= scalar;
-    //     this.y *= scalar;
-    //     this.z *= scalar;
-    //     return this;
-    // }
-
-    // public double scalarProduct(Point v) {
-    //     Point u = this;
-    //     return u.x * v.getX() + u.y * v.getY() + u.z * v.getZ(); 
-    // }
-
-    // public Point vectorProduct(Point v) {
-    //     Point u = this;
-    //     double x = u.y * v.getZ() - u.z * v.getY();
-    //     double y = u.z * v.getX() - u.x * v.getZ();
-    //     double z = u.x * v.getY() - u.y * v.getX();  
-    //     return new Point(x, y, z);
-    // }
 
     public void printPoint() {
         System.out.println(this.x + " " + this.y + " " + this.z);

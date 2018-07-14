@@ -22,5 +22,10 @@ public class Illumination {
         this.rugosityConstant = rugosityConstant;
     }
 
+    public void toViewCoordinates(double[][] worldToView, Point cameraCoordinates) {
+        Point v = this.coordinates.subtract(cameraCoordinates);
+        this.coordinates = v.multiply(worldToView);
+    }
+
     
 }

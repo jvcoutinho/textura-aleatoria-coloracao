@@ -38,4 +38,8 @@ public class Camera {
     public Point getV() {
         return V;
     }
+
+    public Point getCoordinates() {
+        return coordinates;
+    }
 }

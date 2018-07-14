@@ -60,7 +60,8 @@ public class Main extends Application {
         
         // Matriz de mudança de base: coordenadas de mundo para coordenadas de vista.
         double[][] worldToView = worldToViewMatrix(camera.getU(), camera.getV(), camera.getN());
-        
+        scene.toViewCoordinates(worldToView, camera.getCoordinates());
+        object.toViewCoordinates(worldToView, camera.getCoordinates());
         launch(args);
     }
 
@@ -83,7 +84,7 @@ public class Main extends Application {
             fileLoader.close();
 
         } catch (FileNotFoundException e) {
-            System.out.println("Valores de cena não carregados!");
+            System.out.println("Valores de cena nao carregados!");
             System.exit(1);
         }
 
@@ -108,11 +109,11 @@ public class Main extends Application {
             fileLoader.close();
 
         } catch (FileNotFoundException e) {
-            System.out.println("Câmera não carregada!");
+            System.out.println("Camera nao carregada!");
             System.exit(1);
         }
 
-        System.out.println("Câmera carregada!");
+        System.out.println("Camera carregada!");
         return camera;
     }
 
@@ -168,7 +169,7 @@ public class Main extends Application {
         worldToView[2][1] = v.getY();
         worldToView[2][2] = v.getZ();
 
-        System.out.println("Matriz de mudança de coordenadas pronta!");
+        System.out.println("Matriz de mudanca de coordenadas pronta!");
         return worldToView;
     }
 

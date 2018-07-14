@@ -14,12 +14,6 @@ public class Point {
         this.normal = new double[] { 0, 0, 0 };
     }
 
-    public void addNormal(Point normal) {
-        this.normal[0] += normal.x;
-        this.normal[1] += normal.y;
-        this.normal[2] += normal.z;
-    }
-
     public double getX() {
         return x;
     }
@@ -72,6 +66,12 @@ public class Point {
             this.y * v.z - this.z * v.y, 
             this.z * v.x - this.x * v.z,
             this.x * v.y - this.y * v.x);
+    }
+
+    public void addNormal(Point normal) {
+        this.normal[0] += normal.x;
+        this.normal[1] += normal.y;
+        this.normal[2] += normal.z;
     }
 
     public void normalizeNormal() {

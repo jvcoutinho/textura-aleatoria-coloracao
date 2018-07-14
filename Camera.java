@@ -42,4 +42,16 @@ public class Camera {
     public Point getCoordinates() {
         return coordinates;
     }
+
+    public double getD() {
+        return d;
+    }
+
+    public double getHx() {
+        return hx;
+    }
+
+    public double getHy() {
+        return hy;
+    }
 }

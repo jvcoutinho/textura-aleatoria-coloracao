@@ -16,6 +16,9 @@ import javafx.application.Application;
 
 public class Main extends Application {
 
+    private static double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+    private static double screenHeight = Screen.getPrimary().getBounds().getHeight();
+
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -34,8 +37,8 @@ public class Main extends Application {
 
     public Stage definePrimaryStage(Stage primaryStage, Scene scene) {
         primaryStage.setScene(scene);
-        primaryStage.setWidth(Screen.getPrimary().getVisualBounds().getWidth());
-        primaryStage.setHeight(Screen.getPrimary().getBounds().getHeight());
+        primaryStage.setWidth(screenWidth);
+        primaryStage.setHeight(screenHeight);
         primaryStage.setFullScreen(true);
         primaryStage.setFullScreenExitHint("Pressione ESC para sair.");
         primaryStage.setTitle("Textura Aleat\u00F3ria via Colora\u00E7\u00E3o");
@@ -65,6 +68,9 @@ public class Main extends Application {
 
         // Normalização dos pontos.
         object.normalize();
+
+        // Projeção para coordenadas de tela.
+        object.toScreenCoordinates(camera.getD(), camera.getHx(), camera.getHy(), screenWidth, screenHeight);
         launch(args);
     }
 

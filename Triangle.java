@@ -1,6 +1,8 @@
 public class Triangle {
 
     private Point[] vertices;
+    private int[] pointIndexes;
+    private ScreenPoint[] screenVertices;
     private Point normal;
 
     public Triangle(Point v0, Point v1, Point v2) {
@@ -8,6 +10,10 @@ public class Triangle {
         this.vertices[0] = v0;
         this.vertices[1] = v1;
         this.vertices[2] = v2;
+   }
+
+    public void setPointIndexes(int[] pointIndexes) {
+        this.pointIndexes = pointIndexes;
     }
 
     public void calculateNormal() {
@@ -20,6 +26,18 @@ public class Triangle {
         this.vertices[0].addNormal(this.normal); 
         this.vertices[1].addNormal(this.normal); 
         this.vertices[2].addNormal(this.normal); 
+    }
+
+    public Point[] getVertices() {
+        return vertices;
+    }
+
+    public void setScreenVertices(ScreenPoint[] screenVertices) {
+        this.screenVertices = screenVertices;
+    }
+
+    public int[] getPointIndexes() {
+        return pointIndexes;
     }
 
 

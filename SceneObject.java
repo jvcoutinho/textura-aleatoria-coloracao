@@ -29,13 +29,28 @@ public class SceneObject {
         System.out.println("Todas as normais normalizadas.");
     }
 
+    /* Algoritmo adaptado para "passagem por referência" ser possível. */
     public void toScreenCoordinates(double d, double hx, double hy, double width, double height) {
-        for (int i = 0; i < this.points.length; i++) {
-            double x = (d/hx) * this.points[i].getX()/this.points[i].getZ();
-            double y = (d/hy) * this.points[i].getY()/this.points[i].getZ();
-            this.screenPoints[i] = new ScreenPoint((int) ((x + 1) * width / 2), (int) ((1 - y) * height / 2));
-        }
+        ScreenPoint[] screenVertices = new ScreenPoint[3];
 
+        for (int i = 0; i < this.triangles.length; i++) {
+            Point[] vertices = this.triangles[i].getVertices();
+            int[] pointIndexes = this.triangles[i].getPointIndexes(); 
+            
+            for(int j = 0; j < vertices.length && j < pointIndexes.length; j++) {
+
+                int pointIndex = pointIndexes[j];
+                Point point = this.points[pointIndex];
+
+                double x = (d/hx) * point.getX()/point.getZ();
+                double y = (d/hy) * point.getY()/point.getZ();
+                ScreenPoint screenPoint = new ScreenPoint((int) ((x + 1) * width / 2), (int) ((1 - y) * height / 2));
+                screenVertices[j] = screenPoint;
+                this.screenPoints[pointIndex] = screenPoint;
+            }
+
+            triangles[i].setScreenVertices(screenVertices);
+        }
         System.out.println("Projecao para coordenadas de tela completa.");
     }
 }

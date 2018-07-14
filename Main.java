@@ -71,6 +71,9 @@ public class Main extends Application {
 
         // Projeção para coordenadas de tela.
         object.toScreenCoordinates(camera.getD(), camera.getHx(), camera.getHy(), screenWidth, screenHeight);
+
+        // Rasterização
+      
         launch(args);
     }
 
@@ -146,6 +149,7 @@ public class Main extends Application {
                 int v1 = fileLoader.nextInt() - 1;
                 int v2 = fileLoader.nextInt() - 1;
                 triangles[i] = new Triangle(points[v0], points[v1], points[v2]);
+                triangles[i].setPointIndexes(new int[] { v0, v1, v2 });
             }
 
             object = new SceneObject(points, triangles);

@@ -5,11 +5,19 @@ public class Point {
     private double x;
     private double y;
     private double z;
+    private double[] normal;
 
     public Point(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.normal = new double[] { 0, 0, 0 };
+    }
+
+    public void addNormal(Point normal) {
+        this.normal[0] += normal.x;
+        this.normal[1] += normal.y;
+        this.normal[2] += normal.z;
     }
 
     public double getX() {
@@ -36,10 +44,7 @@ public class Point {
     }
 
     public Point multiply(double scalar) {
-        this.x *= scalar;
-        this.y *= scalar;
-        this.z *= scalar;
-        return this;
+        return new Point(this.x * scalar, this.y * scalar, this.z * scalar);
     }
 
     public Point multiply(double[][] matrix) {
@@ -50,18 +55,12 @@ public class Point {
     }
 
     public Point subtract(Point v) {
-        this.x -= v.x;
-        this.x -= v.y;
-        this.z -= v.z;
-        return this;
+        return new Point(this.x - v.x, this.y - v.y, this.z - v.z);
     }
 
     public Point normalize() {
         double norm = this.norm();
-        this.x /= norm;
-        this.y /= norm;
-        this.z /= norm;
-        return this;
+        return new Point(this.x / norm, this.y / norm, this.z / norm);
     }
 
     public double norm() {
@@ -73,6 +72,15 @@ public class Point {
             this.y * v.z - this.z * v.y, 
             this.z * v.x - this.x * v.z,
             this.x * v.y - this.y * v.x);
+    }
+
+    public void normalizeNormal() {
+        Point normal = new Point(this.normal[0], this.normal[1], this.normal[2]);
+        normal = normal.normalize();
+
+        this.normal[0] = normal.x;
+        this.normal[1] = normal.y;
+        this.normal[2] = normal.z;
     }
 
     public void printPoint() {

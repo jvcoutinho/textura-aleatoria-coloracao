@@ -62,6 +62,9 @@ public class Main extends Application {
         double[][] worldToView = worldToViewMatrix(camera.getU(), camera.getV(), camera.getN());
         scene.toViewCoordinates(worldToView, camera.getCoordinates());
         object.toViewCoordinates(worldToView, camera.getCoordinates());
+
+        // Normalização dos pontos.
+        object.normalize();
         launch(args);
     }
 

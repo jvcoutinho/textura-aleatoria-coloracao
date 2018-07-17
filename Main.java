@@ -18,6 +18,7 @@ public class Main extends Application {
 
     private static double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
     private static double screenHeight = Screen.getPrimary().getBounds().getHeight();
+    private static GraphicsContext context;
 
     @Override
     public void start(Stage primaryStage) {
@@ -27,6 +28,7 @@ public class Main extends Application {
             primaryStage = definePrimaryStage(primaryStage, scene);
 
             final Canvas canvas = defineCanvas(primaryStage.getWidth(), primaryStage.getHeight());
+            context = canvas.getGraphicsContext2D();
             
             root.getChildren().add(canvas);
             primaryStage.show();
@@ -69,12 +71,28 @@ public class Main extends Application {
         // Normalização dos pontos.
         object.normalize();
 
-        // Projeção para coordenadas de tela.
-        object.toScreenCoordinates(camera.getD(), camera.getHx(), camera.getHy(), screenWidth, screenHeight);
 
-        // Rasterização
-      
+
+       
+        // Rasterização e coloração.
+        double[][] zBuffer = initializeZBuffer();
+        object.rasterize(zBuffer, camera.getD(), camera.getHx(), camera.getHy(), screenWidth, screenHeight, scene, context);
+            
         launch(args);
+
+        System.out.println("oiss");
+        // // Projeção para coordenadas de tela.
+        // object.toScreenCoordinates(camera.getD(), camera.getHx(), camera.getHy(), screenWidth, screenHeight);
+
+  
+    }
+
+    public static double[][] initializeZBuffer() {
+        double[][] buffer = new double[(int) screenWidth][(int) screenHeight];
+        for (int i = 0; i < buffer.length; i++) 
+            for (int j = 0; j < buffer[i].length; j++) 
+                buffer[i][j] = Double.POSITIVE_INFINITY;
+        return buffer;
     }
 
     public static Illumination loadScene() {
@@ -133,7 +151,7 @@ public class Main extends Application {
         SceneObject object = null;
 
         try {
-            Scanner fileLoader = new Scanner(new File("../objeto.byu")).useLocale(Locale.US);
+            Scanner fileLoader = new Scanner(new File("../tui.byu")).useLocale(Locale.US);
             
             int numPoints, numTriangles;
             numPoints = fileLoader.nextInt();
@@ -148,8 +166,7 @@ public class Main extends Application {
                 int v0 = fileLoader.nextInt() - 1;
                 int v1 = fileLoader.nextInt() - 1;
                 int v2 = fileLoader.nextInt() - 1;
-                triangles[i] = new Triangle(points[v0], points[v1], points[v2]);
-                triangles[i].setPointIndexes(new int[] { v0, v1, v2 });
+                triangles[i] = new Triangle(v0, v1, v2);
             }
 
             object = new SceneObject(points, triangles);
@@ -164,7 +181,7 @@ public class Main extends Application {
         return object;
     }
 
-    public static double[][] worldToViewMatrix(Point u, Point n, Point v) {
+    public static double[][] worldToViewMatrix(Point u, Point v, Point n) {
         double[][] worldToView = new double[3][3];
         
         // Vetor U.
@@ -172,15 +189,15 @@ public class Main extends Application {
         worldToView[0][1] = u.getY();
         worldToView[0][2] = u.getZ();
 
-        // Vetor N.
-        worldToView[1][0] = n.getX();
-        worldToView[1][1] = n.getY();
-        worldToView[1][2] = n.getZ();
-
         // Vetor V.
-        worldToView[2][0] = v.getX();
-        worldToView[2][1] = v.getY();
-        worldToView[2][2] = v.getZ();
+        worldToView[1][0] = v.getX();
+        worldToView[1][1] = v.getY();
+        worldToView[1][2] = v.getZ();
+
+        // Vetor N.
+        worldToView[2][0] = n.getX();
+        worldToView[2][1] = n.getY();
+        worldToView[2][2] = n.getZ();
 
         System.out.println("Matriz de mudanca de coordenadas pronta!");
         return worldToView;

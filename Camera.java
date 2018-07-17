@@ -18,12 +18,12 @@ public class Camera {
         this.hx = hx;
         this.hy = hy;
         this.U = calculateUVector(N, V);
+        this.U.printPoint();
     }
 
     public Point calculateUVector(Point N, Point V) {
-        V = V.orthogonalize(N);
+        V = V.orthogonalize(N).normalize();
         N = N.normalize();
-        V = V.normalize();
         return N.vectorProduct(V);
     }
 

@@ -48,6 +48,10 @@ public class Point {
         return new Point(x, y, z);
     }
 
+    public Point add(Point v) {
+        return new Point(this.x + v.x, this.y + v.y, this.z + v.z);
+    }
+
     public Point subtract(Point v) {
         return new Point(this.x - v.x, this.y - v.y, this.z - v.z);
     }
@@ -81,6 +85,10 @@ public class Point {
         this.normal[0] = normal.x;
         this.normal[1] = normal.y;
         this.normal[2] = normal.z;
+    }
+
+    public double[] getNormal() {
+        return this.normal;
     }
 
     public void printPoint() {
